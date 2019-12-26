@@ -1,6 +1,6 @@
 ### Under Development
 
-![result](https://github.com/kosuke55/train_baiducnn/blob/media/conf.gif)
+<img src="https://github.com/kosuke55/train_baiducnn/blob/media/conf.gif" width="300">
 
 
 #### reference
