@@ -37,7 +37,7 @@ def train(epo_num, pretrained_model):
 
             zeroidx = np.where(pos_weight == 0)
             nonzeroidx = np.where(pos_weight != 0)
-            pos_weight[zeroidx] = 0.5
+            pos_weight[zeroidx] = 0.25
             pos_weight[nonzeroidx] = 1.
             pos_weight = torch.from_numpy(pos_weight)
             pos_weight = pos_weight.to(device)
@@ -59,8 +59,8 @@ def train(epo_num, pretrained_model):
             output_np = output.cpu().detach().numpy().copy()
             output_np = output_np.transpose(1, 2, 0)
             output_img = np.zeros((640, 640, 1), dtype=np.uint8)
-            conf_idx = np.where(output_np[..., 0] > output_np[..., 0].mean())
-            # conf_idx = np.where(output_np[..., 0] > 0.5)
+            # conf_idx = np.where(output_np[..., 0] > output_np[..., 0].mean())
+            conf_idx = np.where(output_np[..., 0] > 0.9)
             output_img[conf_idx] = 255
             output_img = output_img.transpose(2, 0, 1)
             nusc_msk_img = nusc_msk.cpu().detach().numpy().copy()
@@ -103,8 +103,8 @@ def train(epo_num, pretrained_model):
                 output_np = output.cpu().detach().numpy().copy()
                 output_np = output_np.transpose(1, 2, 0)
                 output_img = np.zeros((640, 640, 1), dtype=np.uint8)
-                conf_idx = np.where(output_np[..., 0] > output_np[..., 0].mean())
-                # conf_idx = np.where(output_np[..., 0] > 0.5)
+                # conf_idx = np.where(output_np[..., 0] > output_np[..., 0].mean())
+                conf_idx = np.where(output_np[..., 0] > 0.9)
                 output_img[conf_idx] = 255
                 output_img = output_img.transpose(2, 0, 1)
 
@@ -130,14 +130,17 @@ def train(epo_num, pretrained_model):
                  test_loss/len(test_dataloader),
                  best_loss,
                  time_str))
+        torch.save(bcnn_model.state_dict(),
+                   'checkpoints/bcnn_latestmodel.pt')
         if(best_loss > test_loss/len(test_dataloader)):
             print('update best model {} -> {}'.format(
                 best_loss, test_loss/len(test_dataloader)))
             best_loss = test_loss/len(test_dataloader)
             torch.save(bcnn_model.state_dict(),
-                       'checkpoints/bcnn_bestmodel.pt')
+                       'checkpoints/bcnn_bestmodel_025.pt')
 
 
 if __name__ == "__main__":
-    pretrained_model = "checkpoints/bcnn_bestmodel_mini.pt"
+    # pretrained_model = "checkpoints/bcnn_bestmodel.pt"
+    pretrained_model = "checkpoints/bcnn_latestmodel.pt"
     train(epo_num=100000, pretrained_model=pretrained_model)
