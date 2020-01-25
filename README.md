@@ -1,4 +1,7 @@
 ### Under Development
+
+This branch is for trainig only confidence  
+
 ![result](https://github.com/kosuke55/train_baiducnn/blob/media/conf.gif)  
 
 #### reference
