@@ -1,7 +1,6 @@
 ### Under Development
 
-![result](https://github.com/kosuke55/train_baiducnn/blob/media/bcnn_trt_class_all_nusc_0201.gif)
-
+<img src="https://github.com/kosuke55/train_baiducnn/blob/media/bcnn_trt_class_all_nusc_0201.gif" width="300">
 
 #### reference
 [apollo 3D Obstacle Percption description][1]  
