@@ -114,7 +114,7 @@ def train(data_path, batch_size, max_epoch, pretrained_model,
             category_weight = category_weight[:, 3, ...]
             object_idx = np.where(category_weight == 0)
             nonobject_idx = np.where(category_weight != 0)
-            category_weight[object_idx] = 2.0
+            category_weight[object_idx] = 5.0
             category_weight[nonobject_idx] = 1.0
             category_weight = torch.from_numpy(category_weight)
             category_weight = category_weight.to(device)
@@ -136,11 +136,12 @@ def train(data_path, batch_size, max_epoch, pretrained_model,
             class_weight[object_idx] = 1.0
             class_weight[nonobject_idx] = 1.0
             class_weight = np.concatenate(
-                [class_weight,
-                 class_weight,
+                [class_weight,  # unkwon
+                 class_weight,  # vehicle
+                 class_weight,  # big vehicle
                  class_weight * 15.0,  # bike
                  class_weight * 15.0,  # pedestrian
-                 class_weight], axis=1)
+                 ], axis=1)
             class_weight = torch.from_numpy(class_weight)
             class_weight = class_weight.to(device)
 
@@ -362,7 +363,7 @@ def train(data_path, batch_size, max_epoch, pretrained_model,
                 category_weight = category_weight[:, 3, ...]
                 object_idx = np.where(category_weight == 0)
                 nonobject_idx = np.where(category_weight != 0)
-                category_weight[object_idx] = 2.0
+                category_weight[object_idx] = 5.0
                 category_weight[nonobject_idx] = 1.0
                 category_weight = torch.from_numpy(category_weight)
                 category_weight = category_weight.to(device)
@@ -384,11 +385,12 @@ def train(data_path, batch_size, max_epoch, pretrained_model,
                 class_weight[object_idx] = 1.0
                 class_weight[nonobject_idx] = 1.0
                 class_weight = np.concatenate(
-                    [class_weight,
-                     class_weight,
+                    [class_weight, # unkwon
+                     class_weight, # vehicle
+                     class_weight, # big vehicle
                      class_weight * 15.0,  # bike
                      class_weight * 15.0,  # pedestrian
-                     class_weight], axis=1)
+                     ], axis=1)
                 class_weight = torch.from_numpy(class_weight)
                 class_weight = class_weight.to(device)
 
